@@ -13,8 +13,8 @@
 
   phanta = [];
 
-  startPhantomProcess = function(binary, port, hostname, args) {
-    return spawn(binary, args.concat([__dirname + '/shim.js', port, hostname]));
+  startPhantomProcess = function(binary, port, hostname, args, options) {
+    return spawn(binary, args.concat([__dirname + '/shim.js', port, hostname]), options);
   };
 
   onSignal = function() {
@@ -119,7 +119,7 @@
         var hostname, port;
         port = httpServer.address().port;
         hostname = httpServer.address().address;
-        ps = startPhantomProcess(options.binary, port, hostname, args);
+        ps = startPhantomProcess(options.binary, port, hostname, args, options.spawnOptions);
         ps.stdout.on('data', options.onStdout || function(data) {
           return console.log("phantom stdout: " + data);
         });
